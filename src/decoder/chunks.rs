@@ -192,8 +192,12 @@ mod tests {
     #[test]
     fn test_rgb() {
         let bytes = [0xFE, 0x11, 0x05, 0x13];
-        let chunk = CHUNK::RGBChunk(RGBChunk { r: 0x11, g: 0x05, b: 0x13 });
-        
+        let chunk = CHUNK::RGBChunk(RGBChunk {
+            r: 0x11,
+            g: 0x05,
+            b: 0x13,
+        });
+
         let result = parse_rgb(&bytes).unwrap();
         assert_eq!(result.1, chunk);
     }
@@ -201,8 +205,13 @@ mod tests {
     #[test]
     fn test_rgba() {
         let bytes = [0xFF, 0xFF, 0x12, 0x07, 0x10];
-        let chunk = CHUNK::RGBAChunk(RGBAChunk { r: 0xFF, g: 0x12, b: 0x07, a: 0x10 });
-        
+        let chunk = CHUNK::RGBAChunk(RGBAChunk {
+            r: 0xFF,
+            g: 0x12,
+            b: 0x07,
+            a: 0x10,
+        });
+
         let result = parse_rgba(&bytes).unwrap();
         assert_eq!(result.1, chunk);
     }
@@ -211,7 +220,7 @@ mod tests {
     fn test_index() {
         let bytes = [0b00101010];
         let chunk = CHUNK::IndexChunk(IndexChunk { index: 42 });
-        
+
         let result = parse_index(&bytes).unwrap();
         assert_eq!(result.1, chunk);
     }
@@ -219,8 +228,12 @@ mod tests {
     #[test]
     fn test_diff() {
         let bytes = [0b01110100];
-        let chunk = CHUNK::DiffChunk(DiffChunk { dr: 3, dg: 1, db: 0 });
-        
+        let chunk = CHUNK::DiffChunk(DiffChunk {
+            dr: 3,
+            dg: 1,
+            db: 0,
+        });
+
         let result = parse_diff(&bytes).unwrap();
         assert_eq!(result.1, chunk);
     }
@@ -228,8 +241,12 @@ mod tests {
     #[test]
     fn test_luma() {
         let bytes = [0b10011010, 0b10010110];
-        let chunk = CHUNK::LumaChunk(LumaChunk { dg: 0b011010, dr_dg: 0b1001, db_dg: 0b0110 });
-        
+        let chunk = CHUNK::LumaChunk(LumaChunk {
+            dg: 0b011010,
+            dr_dg: 0b1001,
+            db_dg: 0b0110,
+        });
+
         let result = parse_luma(&bytes).unwrap();
         assert_eq!(result.1, chunk);
     }
@@ -238,7 +255,7 @@ mod tests {
     fn test_run() {
         let bytes = [0b11011010];
         let chunk = CHUNK::RunChunk(RunChunk { run: 0b011010 });
-        
+
         let result = parse_run(&bytes).unwrap();
         assert_eq!(result.1, chunk);
     }
