@@ -13,8 +13,6 @@ fn main() {
     let qoi_file = String::from(argv[1].clone());
     let input = fs::read(qoi_file).expect("error: fs::read_to_string");
 
-    let mut img: ImageBuffer<Rgba<u8>, Vec<u8>> = decode::decode_image(&input);
-
-    let temp = Rgba([1, 2, 3, 4]);
-    println!("{}", temp.0[0]);
+    let img: ImageBuffer<Rgba<u8>, Vec<u8>> = decode::decode_image(&input);
+    let _ = img.save("/home/ayush/Desktop/kodim23.png");
 }

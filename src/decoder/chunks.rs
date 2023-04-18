@@ -4,11 +4,15 @@ use nom::{
     bits::complete::tag,
     bits::complete::take,
     branch::alt,
+    bytes,
     error::{make_error, ErrorKind},
+    multi::many_till,
     number::complete::be_u8,
     sequence::tuple,
     Err, IResult,
 };
+
+use super::header::{parse_header, QOIHeader};
 
 pub const QOI_OP_RGB_HEADER: u8 = 0b11111110;
 pub const QOI_OP_RGBA_HEADER: u8 = 0b11111111;
@@ -183,6 +187,17 @@ pub fn parse_chunks(input: &[u8]) -> IResult<&[u8], CHUNK> {
         parse_luma,
         parse_run,
     ))(input)
+}
+
+pub fn get_end(input: &[u8]) -> IResult<&[u8], ()> {
+    let (input, _) = bytes::complete::tag([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01])(input)?;
+    Ok((input, ()))
+}
+
+pub fn get_all_chunks(bytes: &[u8]) -> IResult<&[u8], (QOIHeader, Vec<CHUNK>)> {
+    let (input, (header, (chunk_array, _))) =
+        tuple((parse_header, many_till(parse_chunks, get_end)))(bytes)?;
+    Ok((input, (header, chunk_array)))
 }
 
 #[cfg(test)]
