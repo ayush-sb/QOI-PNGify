@@ -14,7 +14,7 @@ pub fn decode_image(input: &[u8]) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
 
     /* initialize data structures */
     let mut image_buffer: ImageBuffer<Rgba<u8>, Vec<u8>> =
-        ImageBuffer::new(header.height, header.width);
+        ImageBuffer::new(header.width, header.height);
     let mut run_array: Vec<Rgba<u8>> = vec![Rgba([0, 0, 0, 0]); RUN_ARRAY_SIZE.into()];
     let mut prev_pixel = Rgba([0, 0, 0, 255]);
     let mut curr_pixel: Rgba<u8>;
@@ -29,7 +29,7 @@ pub fn decode_image(input: &[u8]) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
                 let a = prev_pixel.0[3];
 
                 curr_pixel = Rgba([r, g, b, a]);
-                image_buffer.put_pixel(count / header.width, count % header.width, curr_pixel);
+                image_buffer.put_pixel(count % header.width, count / header.width, curr_pixel);
                 run_array[hash(&curr_pixel) as usize] = curr_pixel;
                 prev_pixel = curr_pixel;
                 count = count + 1;
@@ -42,7 +42,7 @@ pub fn decode_image(input: &[u8]) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
                 let a = rgba_chunk.a;
 
                 curr_pixel = Rgba([r, g, b, a]);
-                image_buffer.put_pixel(count / header.width, count % header.width, curr_pixel);
+                image_buffer.put_pixel(count % header.width, count / header.width, curr_pixel);
                 run_array[hash(&curr_pixel) as usize] = curr_pixel;
                 prev_pixel = curr_pixel;
                 count = count + 1;
@@ -50,7 +50,7 @@ pub fn decode_image(input: &[u8]) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
 
             CHUNK::IndexChunk(index_chunk) => {
                 curr_pixel = run_array[index_chunk.index as usize].clone();
-                image_buffer.put_pixel(count / header.width, count % header.width, curr_pixel);
+                image_buffer.put_pixel(count % header.width, count / header.width, curr_pixel);
                 prev_pixel = curr_pixel;
                 count = count + 1;
             }
@@ -68,7 +68,7 @@ pub fn decode_image(input: &[u8]) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
                 let a = prev_pixel.0[3];
 
                 curr_pixel = Rgba([r, g, b, a]);
-                image_buffer.put_pixel(count / header.width, count % header.width, curr_pixel);
+                image_buffer.put_pixel(count % header.width, count / header.width, curr_pixel);
                 run_array[hash(&curr_pixel) as usize] = curr_pixel;
                 prev_pixel = curr_pixel;
                 count = count + 1;
@@ -85,7 +85,7 @@ pub fn decode_image(input: &[u8]) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
                 let a = prev_pixel.0[3];
 
                 curr_pixel = Rgba([r, g, b, a]);
-                image_buffer.put_pixel(count / header.width, count % header.width, curr_pixel);
+                image_buffer.put_pixel(count % header.width, count / header.width, curr_pixel);
                 run_array[hash(&curr_pixel) as usize] = curr_pixel;
                 prev_pixel = curr_pixel;
                 count = count + 1;
@@ -95,7 +95,7 @@ pub fn decode_image(input: &[u8]) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
                 let num_iters = run_chunk.run.wrapping_add(RUN_BIAS);
                 for _ in 0..num_iters {
                     curr_pixel = prev_pixel.clone();
-                    image_buffer.put_pixel(count / header.width, count % header.width, curr_pixel);
+                    image_buffer.put_pixel(count % header.width, count / header.width, curr_pixel);
                     count = count + 1;
                 }
             }
