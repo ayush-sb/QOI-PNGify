@@ -1,6 +1,6 @@
 # QOI-PNGify
 
-This is a decoder for the [QOI image format](https://qoiformat.org), written in Rust. It uses nom to parse any .qoi image as byte chunks and converts chunks to pixels, which are stored in an [ImageBuffer](https://docs.rs/image/0.24.6/image/struct.ImageBuffer.html). The [image](https://crates.io/crates/image) crate converts the ImageBuffer to a png image.
+This is a decoder for the [QOI image format](https://qoiformat.org), written in Rust. It uses parser combinators to parse any .qoi image as byte chunks, and converts chunks to pixels, which are stored in an [ImageBuffer](https://docs.rs/image/0.24.6/image/struct.ImageBuffer.html). The [image](https://crates.io/crates/image) crate is used to convert the ImageBuffer to a png image.
 
 ## Using the decoder
 
