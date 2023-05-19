@@ -7,7 +7,7 @@ This is a decoder for the [QOI image format](https://qoiformat.org), written in 
 You will need Rust installed on your system to use the decoder. You can do so by using [rustup](https://rustup.rs). Once this is done, clone the repo and install the binary using
 
 ```bash
-git clone https://github.com/ayush-sb/QOI-Decoder
+git clone https://github.com/ayush-sb/qoi_decoder.git
 cargo install -path QOI-Decoder
 ```
 
