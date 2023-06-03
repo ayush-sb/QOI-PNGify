@@ -24,3 +24,4 @@ You can optionally specify a custom filename for the png file
 # converts dice.qoi to testimage.png and stores it at the specified path
 pngify dice.qoi /home/xyz/testimage.png
 ```
+
